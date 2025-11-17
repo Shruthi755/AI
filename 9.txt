@@ -1,0 +1,36 @@
+% Water Jug Problem (4L, 3L) – Goal: (2,0)
+:- dynamic rstate/2.
+
+start :-
+    retractall(rstate(_, _)),
+    assert(rstate(0,0)),
+    writeln("Starting from (0,0)"),
+    state(0,0).
+
+% Goal
+state(2,0) :-
+    \+ rstate(2,0),
+    assert(rstate(2,0)),
+    writeln("\nGoal reached: (2,0)"), !.
+
+% Rules
+state(X,Y) :-
+    ( X < 4, NX=4, NY=Y, Msg="Rule 1"       % Fill 4L
+    ; Y < 3, NX=X, NY=3, Msg="Rule 2"        % Fill 3L
+    ; X > 0, NX=0, NY=Y, Msg="Rule 3"        % Empty 4L
+    ; Y > 0, NX=X, NY=0, Msg="Rule 4"        % Empty 3L
+    ; X+Y>=4, Y>0, NY is Y-(4-X), NX=4, Msg="Rule 5"  % 3 → 4
+    ; X+Y>=3, X>0, NX is X-(3-Y), NY=3, Msg="Rule 6"  % 4 → 3
+    ; X+Y=<4, Y>0, NX is X+Y, NY=0, Msg="Rule 7"      % Empty 3 → 4
+    ; X+Y=<3, X>0, NX=0, NY is X+Y, Msg="Rule 8"      % Empty 4 → 3
+    ),
+    \+ rstate(NX,NY),
+    assert(rstate(NX,NY)),
+    format('~w => (~w, ~w)~n', [Msg,NX,NY]),
+    state(NX,NY).
+
+state(_, _).
+
+Output
+
+start.

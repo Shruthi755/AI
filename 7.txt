@@ -1,0 +1,36 @@
+move(S, NS) :- move_left(S, NS); move_right(S, NS); move_up(S, NS); move_down(S, NS).
+move_left([0,A,B|T],[A,0,B|T]).
+move_left([A,0,B|T],[A,B,0|T]).
+move_left([A,B,C|T],[A,B,C|T1]) :- move_left(T,T1).
+move_right([A,B,0|T],[A,0,B|T]).
+move_right([A,0,B|T],[0,A,B|T]).
+move_right([A,B,C|T],[A,B,C|T1]) :- move_right(T,T1).
+move_up([0,A,B,C|T],[C,A,B,0|T]).
+move_up([H|T],[H|T1]) :- move_up(T,T1).
+move_down([A,B,C,0|T],[0,B,C,A|T]).
+move_down([H|T],[H|T1]) :- move_down(T,T1).
+goal([1,2,3,4,5,6,7,8,0]).
+puzzle(Start) :-
+    bfs([[Start]], [], Sol),
+    reverse(Sol, Path),
+    print_steps(Path, 0).
+bfs([[S|P]|_], _, [S|P]) :- goal(S), !.
+bfs([[S|P]|Rest], Vis, Sol) :-
+    findall([N,S|P],
+            (move(S,N), \+ member(N,P), \+ member(N,Vis)),
+            New),
+    append(Rest, New, Q),
+    bfs(Q, [S|Vis], Sol).
+print_steps([], _).
+print_steps([S|R], N) :-
+    format("Step ~w:\n", [N]),
+    print_state(S), nl,
+    N1 is N+1,
+    print_steps(R, N1).
+print_state([]).
+print_state([A,B,C|T]) :- format("~w ~w ~w\n", [A,B,C]), print_state(T).
+start :- puzzle([1,2,3,4,5,6,0,7,8]).
+
+
+Output
+start.

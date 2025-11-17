@@ -1,0 +1,5 @@
+replace(X, Y, [X | T], [Y | T]).
+replace(X, Y, [H | T], [H | T1]) :-
+replace(X, Y, T, T1).
+Output
+?-replace(3, x, [1, 2, 3, 4, 3], R).

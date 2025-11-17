@@ -1,0 +1,27 @@
+go :-
+take("monkey", "stick"),
+move("monkey", "chair"),
+get_on("monkey", "chair"),
+hit("monkey", "stick", "banana"),
+writeln("The monkey has hit the banana!"), !.
+go :-
+writeln("The monkey couldn't reach the banana.").
+% Interaction predicates
+take(Animal, Object) :-
+format("Does the ~w take the ~w? (y/n): ", [Animal, Object]),
+read(Reply),
+Reply = y.
+move(Animal, Object) :-
+format("Does the ~w move the ~w? (y/n): ", [Animal, Object]),
+read(Reply),
+Reply = y.
+get_on(Animal, Object) :-
+format("Does the ~w get on the ~w? (y/n): ", [Animal, Object]),
+read(Reply),
+Reply = y.
+hit(Animal, Tool, Target) :-
+format("Does the ~w hit the ~w with the ~w? (y/n): ", [Animal, Target, Tool]),
+read(Reply),
+Reply = y.
+Output
+?-go.

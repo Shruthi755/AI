@@ -1,0 +1,9 @@
+add :-
+write('Input first number: '), nl,
+read(X),
+write('Input second number: '), nl,
+read(Y),
+Z is X + Y,
+write('Output = '), write(Z), nl.
+Output
+?-add

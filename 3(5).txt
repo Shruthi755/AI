@@ -1,0 +1,5 @@
+del(X,[X|T],T).
+del(X,[H|T],[H|T1]):-
+del(X,T,T1).
+Output
+?-del(3,[2,3,4],X).

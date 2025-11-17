@@ -1,0 +1,48 @@
+% Grid
+env([
+ [x,x,x,x,x,x,x],
+ [x,.,.,.,.,x,x],
+ [x,.,x,.,x,.,x],
+ [x,.,.,.,.,.,x],
+ [x,.,x,.,.,x,x],
+ [x,.,.,.,x,.,x],
+ [x,.,.,.,.,d,r]
+]).
+
+% Moves
+step(X,Y,NX,Y) :- NX is X-1.  % up
+step(X,Y,NX,Y) :- NX is X+1.  % down
+step(X,Y,X,NY) :- NY is Y-1.  % left
+step(X,Y,X,NY) :- NY is Y+1.  % right
+
+valid(X,Y) :- X>=1,X=<7,Y>=1,Y=<7.
+
+cell(X,Y,C) :- env(G), nth1(X,G,R), nth1(Y,R,C).
+
+empty(C) :- member(C,[.,d,r]).
+
+start(X,Y) :-
+    env(G), nth1(X,G,R), nth1(Y,R,r).
+
+% Goal
+path(X,Y,_,[(X,Y)]) :- cell(X,Y,d), !.
+
+% DFS
+path(X,Y,V,[(X,Y)|P]) :-
+    valid(X,Y),
+    cell(X,Y,C), empty(C),
+    \+ member((X,Y),V),
+    step(X,Y,NX,NY),
+    path(NX,NY,[(X,Y)|V],P).
+
+solve(P) :-
+    start(X,Y),
+    path(X,Y,[],P),
+    maplist(print_cell,P).
+
+print_cell((X,Y)) :-
+    format("Move to (~w,~w)~n",[X,Y]).
+
+
+output
+solve(Path).

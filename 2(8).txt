@@ -1,0 +1,13 @@
+go :-
+readaddress(Address),
+nl, write(Address), nl, nl,
+write("Accept (y/n)? "), read_line_to_string(user_input, Reply),
+(Reply = "y" -> ! ; nl, write("Please re-enter"), nl, go).
+readaddress(address(Name, Street, City, State, Zip)) :-
+write("Name: "), read_line_to_string(user_input, Name),
+write("Street: "), read_line_to_string(user_input, Street),
+write("City: "), read_line_to_string(user_input, City),
+write("State: "), read_line_to_string(user_input, State),
+write("Zip: "), read_line_to_string(user_input, Zip).
+Output
+?-go.

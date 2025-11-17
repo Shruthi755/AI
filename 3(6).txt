@@ -1,0 +1,5 @@
+itnames([ram,kapil,shweta]).
+itnames([ram,shweta,kapil]).
+Output
+?-itnames(Y).
+?-itnames([ram|T]).
